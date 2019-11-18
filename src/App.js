@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-
+import Navbar from './component/layout/Navbar';
 class App extends Component {
   render() {
-    const name = 'Github tracker';
-
     return (
       <div className="App">
-        <h1>Hello{name.toUpperCase()}</h1>
+        <Navbar />
       </div>
     );
   }
