@@ -6,7 +6,7 @@ import Users from './component/users/Users';
 import axios from 'axios';
 import Search from './component/users/Search';
 import Alert from './component/layout/Alert';
-
+import About from './component/pages/About';
 class App extends Component {
   state = {
     users: [],
@@ -63,6 +63,7 @@ class App extends Component {
                 )}
               />
             </Switch>
+            <Route exact path="/about" component={About} />
           </div>
         </div>
       </Router>
