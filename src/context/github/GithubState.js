@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
-import githubContext from './githubContext';
-import githubReducer from './githubReducer';
+import GithubContext from './githubContext';
+import GithubReducer from './githubReducer';
 import {
   SEARCH_USERS,
   SET_LOADING,
@@ -17,11 +17,13 @@ const GithubState = props => {
     repos: [],
     loading: false
   };
-  const [state, dispatch] = useReducer(githubReducer, initialState);
 
-  //Search profile
+  const [state, dispatch] = useReducer(GithubReducer, initialState);
+
+  // Search Users
   const searchUsers = async text => {
     setLoading();
+
     const res = await axios.get(
       `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
@@ -31,27 +33,39 @@ const GithubState = props => {
     });
   };
 
-  //Get profile
+  // Get User
+  const getUser = async username => {
+    setLoading();
 
-  //Get repos
+    const res = await axios.get(
+      `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
 
-  //Clear profiles
+    dispatch({
+      type: GET_USER,
+      payload: res.data
+    });
+  };
+  // Clear Users
+  const clearUsers = () => dispatch({ type: CLEAR_USERS });
 
-  //Set loading
+  // Set Loading
   const setLoading = () => dispatch({ type: SET_LOADING });
 
   return (
-    <githubContext.Provider
+    <GithubContext.Provider
       value={{
         users: state.users,
         user: state.user,
         repos: state.repos,
         loading: state.loading,
-        searchUsers
+        searchUsers,
+        clearUsers,
+        getUser
       }}
     >
       {props.children}
-    </githubContext.Provider>
+    </GithubContext.Provider>
   );
 };
 
