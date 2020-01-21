@@ -11,7 +11,9 @@ export default (state, action) => {
     case SEARCH_USERS:
       return {
         ...state,
-        users: action.payload // all the users from github api
+        users: action.payload,
+        loading: false
+        // all the users from github api
       };
     case GET_USER:
       return {
